@@ -42,5 +42,41 @@ public class AutomovelResource {
         }
     }
 
-    // Outros métodos (PUT, DELETE) conforme necessário
+    @PUT
+    @Path("/{placa}")
+    public Response atualizarCarro(@PathParam("placa") String placa, Automovel carroAtualizado) {
+        try {
+            Automovel carroExistente = AutomovelDAO.buscarPorPlaca(placa);
+            if (carroExistente == null) {
+                return Response.status(Response.Status.NOT_FOUND).entity("Carro não encontrado.").build();
+            }
+
+            carroAtualizado.setPlaca(placa); // Mantém a placa do carro inalterada
+            AutomovelDAO.atualizar(carroAtualizado);
+
+            return Response.ok("Carro atualizado com sucesso.").build();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Response.serverError().entity("Erro ao atualizar carro.").build();
+        }
+    }
+
+    // Método DELETE para remover um automóvel por placa
+    @DELETE
+    @Path("/{placa}")
+    public Response deletarCarro(@PathParam("placa") String placa) {
+        try {
+            Automovel carroExistente = AutomovelDAO.buscarPorPlaca(placa);
+            if (carroExistente == null) {
+                return Response.status(Response.Status.NOT_FOUND).entity("Carro não encontrado.").build();
+            }
+
+            AutomovelDAO.deletar(placa);
+
+            return Response.noContent().build();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Response.serverError().entity("Erro ao deletar carro.").build();
+        }
+    }
 }

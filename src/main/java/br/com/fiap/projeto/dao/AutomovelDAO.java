@@ -28,7 +28,7 @@ public class AutomovelDAO {
     }
 
     // Método para buscar um automóvel pela placa
-    public Automovel buscarPorPlaca(String placa) throws SQLException {
+    public static Automovel buscarPorPlaca(String placa) throws SQLException {
         String sql = "SELECT * FROM AUTOMOVEL WHERE PLACA = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -51,7 +51,7 @@ public class AutomovelDAO {
     }
 
     // Método para atualizar um automóvel
-    public void atualizar(Automovel automovel) throws SQLException {
+    public static void atualizar(Automovel automovel) throws SQLException {
         String sql = "UPDATE AUTOMOVEL SET ANO = ?, MODELO = ?, MOTORIZACAO = ?, SERVICO_ID_SERVICO = ? WHERE PLACA = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -67,7 +67,7 @@ public class AutomovelDAO {
     }
 
     // Método para deletar um automóvel
-    public void deletar(String placa) throws SQLException {
+    public static void deletar(String placa) throws SQLException {
         String sql = "DELETE FROM AUTOMOVEL WHERE PLACA = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
